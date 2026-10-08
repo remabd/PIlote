@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+@theme {
+    --color-rause: #DA1C4A;
+    --color-rause-60: #E97792;
+
+    --color-feuille: #70B447;
+    --color-feuille-60: #A9D291;
+}

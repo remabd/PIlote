@@ -37,6 +37,7 @@
 	},
 	"dependencies": {
 		"@tailwindcss/vite": "^4.3.3",
+		"svelteplot": "^0.14.2",
 		"tailwindcss": "^4.3.3"
 	}
 }

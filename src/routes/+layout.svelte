@@ -14,15 +14,15 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<header class="bg-green-900/60 flex flex-row justify-between items-center h-20 pl-3">
+<header class="bg-feuille-60 flex flex-row justify-between items-center h-20 pl-3">
     <div class="flex flex-row w-1/2">
-        <div><img src={logo} alt="LOGO"></div>
+        <div><a href="/"><img src={logo} alt="LOGO"></a></div>
         <ul class="flex flex-row ml-10 items-center justify-around w-1/2">
             <li><a href="/shell"><p class="text-2xl font-bold">SHELL</p></a></li>
-            <li><a href="/graph"><p class="text-2xl font-bold">GRAPH</p></a></li>
+            <li><a href="/nginx"><p class="text-2xl font-bold">NGINX</p></a></li>
         </ul>
     </div>
-    <div>
+    <div class="pr-3">
         <button onclick={() => {visible = !visible}} class="text-2xl font-bold hover:text-blue-800/60">HEALTH</button>
         {#if visible}
             <Health/>
@@ -32,6 +32,6 @@
 
 {@render children()}
 
-<footer class="bg-green-900/60">
+<footer class="bg-feuille-60">
     REMABD
 </footer>
