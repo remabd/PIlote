@@ -1,26 +1,24 @@
 <script lang="ts">
-	import { Plot, BarY, RectY, RuleY } from 'svelteplot';
+	// import { Plot, BarY, RectY, RuleY } from 'svelteplot';
 	import { slide } from 'svelte/transition';
-	import { uptimeEnJours } from './server/syscall';
+
+	let { datas } = $props();
 
 	const name = 'PI';
 	let uptime: number | string = $state(0);
-	let lastMaj = $state(0);
-	let cpu = $state([30, 40, 60, 80, 20, 20, 30, 20, 40, 50, 30, 40, 30]);
-	let ram = $state([]);
+	let lastMaj: number | string = $state(0);
+	// let cpu = $state([30, 40, 60, 80, 20, 20, 30, 20, 40, 50, 30, 40, 30]);
+	// let ram = $state([]);
 	// let disques = $state([]);
 
 	$effect(() => {
-		const interval = setInterval(fetchData, 1);
+		setInterval(fetchData, 1);
 	});
 
-	function fetchData() {
-		let tmp = uptimeEnJours
-		if (tmp.status === 200) {
-			uptime = tmp.result;
-		}
-		uptime = 'NaN';
-	}
+
+
+	const fetchData = () => {}
+
 </script>
 
 <div
@@ -31,22 +29,22 @@
 	<ul>
 		<li><p>uptime: {uptime}j</p></li>
 		<li><p>Dernière maj: {lastMaj}j</p></li>
-		<li class="flex flex-row">
+		<!-- <li class="flex flex-row">
 			<p>CPU</p>
-			<!-- <Plot grid>
+			 <Plot grid>
                 <RuleY data={[0]}/>
                 <BarY data={cpu} y="%"/>
-            </Plot> -->
+            </Plot>
 			<Plot height={300} grid marginLeft={40}>
 				<RectY />
 				<RuleY data={[0]} />
 			</Plot>
 			<p>{cpu[cpu.length - 1]}%</p>
-		</li>
-		<li class="flex flex-row">
+		</li> -->
+		<!-- <li class="flex flex-row">
 			<p>RAM</p>
 			<p>{ram[ram.length - 1]}%</p>
-		</li>
+		</li> -->
 		<!-- <li></li> -->
 	</ul>
 </div>

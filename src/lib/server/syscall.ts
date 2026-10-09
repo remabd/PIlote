@@ -1,6 +1,6 @@
-import { exec } from 'child_process';
+import { exec } from 'node:child_process';
 import { Temporal } from '@js-temporal/polyfill';
-import { Data, Effect } from 'effect/dist';
+import { Data, Effect } from 'effect';
 
 export type SysCallResult<T> = { status: 200; result: T } | { status: 500; message: string };
 

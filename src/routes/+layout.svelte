@@ -3,7 +3,7 @@
 
 	import favicon from '#lib/assets/favicon.svg';
 	import logo from '#lib/assets/PIlote.gif';
-	import Health from '#lib/Health.svelte'
+	import Health from '#lib/components/Health.svelte'
 
 	let { children }: LayoutProps = $props();
 
@@ -32,6 +32,6 @@
 
 {@render children()}
 
-<footer class="bg-feuille-60">
+<footer class="bg-feuille-60 flex flex-row justify-center items-center">
     REMABD
 </footer>
