@@ -36,7 +36,9 @@
 		"#lib/*": "./src/lib/*"
 	},
 	"dependencies": {
+		"@js-temporal/polyfill": "^0.5.1",
 		"@tailwindcss/vite": "^4.3.3",
+		"effect": "^4.0.2",
 		"svelteplot": "^0.14.2",
 		"tailwindcss": "^4.3.3"
 	}

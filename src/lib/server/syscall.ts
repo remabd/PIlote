@@ -1,25 +1,37 @@
-import { execSync } from 'child_process';
+import { exec } from 'child_process';
+import { Temporal } from '@js-temporal/polyfill';
+import { Data, Effect } from 'effect/dist';
 
 export type SysCallResult<T> = { status: 200; result: T } | { status: 500; message: string };
 
-export interface SysError {
-	message: string;
-}
+export class SysError extends Data.TaggedError('SysCallError')<{
+	readonly message: string;
+}> {}
 
-export function uptimeEnJours(): SysCallResult<number> {
-    const COMMAND = "uptime | awk '{print $3}' FS=' '";
-    const time = execSync(COMMAND);
-	try {
-		if (!time.includes('day')) {
-            return { status: 200, result: 0};
+export const uptimeEnJours = (): Effect.Effect<number, SysError> => {
+	let jours = 0;
+	const COMMAND = "uptime | awk '{print $3}' FS=' '";
+	exec(COMMAND, (error, stdout, stderr) => {
+		if (error || stderr) {
+			return Effect.fail(new Error('System Call Error'));
 		}
-        return { status: 200, result: time[0] };
-	} catch {
-		return { status: 500, message: 'Décodage impossible' };
-	}
-}
+		jours = stdout.includes('day') ? parseInt(stdout[0]) : 0;
+	});
+	return Effect.succeed(jours);
+};
 
-export function CalculeDerniereMAJEnJours(): SysCallResult<number> {
-    const COMMAND = "tac /var/log/apt/history.log | grep Upgrade -m1 -B1 | head -n1 | cut -d' ' -f2";
-    const time = execSync(COMMAND);
-}
+export const CalculeDerniereMAJEnJours = (): Effect.Effect<number, SysError> => {
+	const DATEISOREGEX = new RegExp('^\d{4}-\d{2}-\d{2}$');
+	let date = '';
+	const COMMAND = "tac /var/log/apt/history.log | grep Upgrade -m1 -B1 | head -n1 | cut -d' ' -f2";
+	exec(COMMAND, (error, stdout, stderr) => {
+		if (error || stderr) {
+			return Effect.fail(new Error('System Call Error'));
+		}
+		date = stdout;
+	});
+	if (!DATEISOREGEX.test(date)) return Effect.fail(new Error('Stdout error'));
+	const temporalMaj = Temporal.PlainDate.from(date);
+	const temporalNow = Temporal.Now.plainDateISO();
+	return Effect.succeed(temporalMaj.until(temporalNow).days);
+};
